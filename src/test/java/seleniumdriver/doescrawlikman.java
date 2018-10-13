@@ -21,8 +21,9 @@ public class doescrawlikman extends MainClass {
     @Test(priority = 1)
     public void tests(){
         openikman(driver);
-        crawler(driver);
+        searchCars(driver, "cars");
+        /*crawler(driver);
         setfilters(driver,"5000000", "7500000", 3);
-        getdetails(driver, "5000000", "7500000", 3 );
+        getdetails(driver, "5000000", "7500000", 3 );*/
     }
 }
