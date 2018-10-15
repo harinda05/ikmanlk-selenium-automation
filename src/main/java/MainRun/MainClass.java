@@ -7,6 +7,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainClass {
@@ -15,6 +16,58 @@ public class MainClass {
     public void openikman(WebDriver driver) {
 
         driver.get("http://ikman.lk");
+
+    }
+
+    public void searchCars(WebDriver driver, String query){
+        //click on vehicles button
+        WebDriverWait wait = new WebDriverWait(driver, 15);
+        String xpathOfVehiclesButton = "/html/body/div[2]/div[2]/div/div[3]/div/div[1]/div[3]/a";
+        WebElement vehiclesButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpathOfVehiclesButton)));
+        vehiclesButton.click();
+
+        //Type in SearchBox
+        String xpathOfSearchBox = " //*[@id=\"query\"]";
+        WebElement searchBox= wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpathOfSearchBox)));
+        searchBox.sendKeys(query);
+
+        //Click on SearchButton
+        String cssOfSearchButton = "body > div.app-content > div > div.serp-listing > div.ui-panel.is-rounded.serp-panel > div.ui-panel-header.ui-panel-block > div > div.col-12.lg-6 > form > div > div.col-2.lg-4.push > button";
+        WebElement searchBtn = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(cssOfSearchButton)));
+        searchBtn.click();
+
+        Integer count = 3;
+        Integer index = 1;
+        Integer ad_index = 1;
+        List<WebElement> elements = new ArrayList<WebElement>();
+
+
+        String cssOfAdDisplay = "div[class='ui-item']";
+        elements= driver.findElements(By.cssSelector(cssOfAdDisplay));
+        index++;
+        elements.subList(2, elements.size()).clear();
+
+        for(WebElement e : elements) {
+            String adtext = e.getText();
+
+
+
+            String[] lines = adtext.split("\\n");
+            String city =  lines[1];
+            System.out.println("Model : " + lines[0]);
+            System.out.println("Kms : " + lines[1]);
+            //System.out.println("Price : " +lines[2]);
+
+            if(lines[2].contains("MEMBER")){
+                System.out.println("Place : " +lines[2].substring(lines[2].lastIndexOf("MEMBER")));
+            }
+
+            System.out.println("Price : " +lines[3]);
+
+            System.out.println("============================");
+
+
+        }
 
     }
 
